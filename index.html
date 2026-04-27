@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình Tìm Đường Cứu Nước - Hồ Chí Minh</title>
+    <style>
+        /* Cài đặt chung */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* THAY LINK ẢNH NỀN VÀO ĐÂY */
+            background: url('background-1.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Lớp phủ tối màu để chữ dễ đọc hơn trên nền ảnh */
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.75); /* Tùy chỉnh độ tối ở số 0.75 */
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #ffcccc;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        /* Phần Media (Video & Audio) */
+        .media-section {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Tỷ lệ 16:9 */
+            height: 0;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 30px;
+        }
+
+        /* Sơ đồ thời gian (Timeline) */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Đường gạch dọc ở giữa */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #ff4757;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        /* Dấu chấm trên trục thời gian */
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: #ffffff;
+            border: 4px solid #ff4757;
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; }
+        .right { left: 50%; }
+
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid rgba(255, 255, 255, 0.15);
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent rgba(255, 255, 255, 0.15);
+        }
+
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid rgba(255, 255, 255, 0.15);
+            border-width: 10px 10px 10px 0;
+            border-color: transparent rgba(255, 255, 255, 0.15) transparent transparent;
+        }
+
+        .right::after { left: -10px; }
+
+        .content {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s;
+        }
+
+        .content:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .content h2 {
+            color: #ffdd59;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 5px;
+        }
+
+        /* Ảnh minh họa trong timeline */
+        .content img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .content ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .content li {
+            margin-bottom: 8px;
+        }
+
+        /* Hiển thị trên thiết bị di động */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .container::before { left: 60px; border: medium solid rgba(255, 255, 255, 0.15); border-width: 10px 10px 10px 0; border-color: transparent rgba(255, 255, 255, 0.15) transparent transparent; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <h1>Hành Trình Ra Đi Tìm Đường Cứu Nước</h1>
+            <p>Chủ tịch Hồ Chí Minh (1911 - 1941)</p>
+        </header>
+
+        <section class="media-section">
+            <div class="video-container">
+    <video width="100%" height="auto" controls autoplay muted loop id="localVideo">
+        <source src="video-ve-bac-1.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ phát video.
+    </video>
+</div>
+            
+            <div style="background: rgba(139, 0, 0, 0.4); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 215, 0, 0.3); text-align: center; margin-top: 20px;">
+    <p style="margin-bottom: 10px; font-size: 1.1rem; color: #ffdd59; font-weight: bold; text-transform: uppercase;">
+        🎵 Bài hát: Còn gì đẹp hơn
+    </p>
+    <p style="font-size: 0.9rem; color: #eee; margin-bottom: 15px; font-style: italic;">
+        Sáng tác: Nhạc sĩ Nguyễn Hùng
+    </p>
+    <audio id="bgMusic" controls autoplay loop style="width: 100%;">
+        <source src="con-gi-dep-hon.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
+    <p style="font-size: 0.75rem; margin-top: 10px; color: #ccc;">
+        (Nhấn nút Play để lắng nghe giai điệu hào hùng về Người thanh niên yêu nước)
+    </p>
+</div>
+            <p style="font-size: 0.8rem; margin-top: 5px; color: #ccc;">* Nhạc nền sẽ tự động phát (nếu trình duyệt cho phép).</p>
+        </section>
+
+        <section class="timeline">
+            <div class="container left">
+                <div class="content">
+                    <h2>5/6/1911</h2>
+                    <img src="anh-bac-ben-nha-rong.jpg"
+                    <p>Rời bến cảng Nhà Rồng, đi qua Pháp, dừng chân tại Marseille và Le Havre.</p>
+                </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <h2>1912 - 1913</h2>
+                    <img src="background.jpg" 
+                    <p>Đi qua nhiều nước châu Phi, châu Mỹ (Mỹ) và các nước thuộc địa, làm thuê kiếm sống.</p>
+                </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <h2>1913 - 1917</h2>
+                    <img src="nuoc-anh.jpg"
+                    <p>Trở lại Pháp, sau đó sang Anh làm nhiều nghề (như phụ bếp, cào tuyết) và học hỏi.</p>
+                </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <h2>1917 - 1920 (Bước ngoặt tư tưởng)</h2>
+                    <img src="anh-bac.jpg" 
+                    <ul>
+                        <li><strong>Cuối 1917:</strong> Từ Anh về Pháp, tham gia hoạt động trong phong trào công nhân Pháp.</li>
+                        <li><strong>1919:</strong> Gửi "Yêu sách của nhân dân An Nam" tới Hội nghị Versailles (lấy tên Nguyễn Ái Quốc).</li>
+                        <li><strong>7/1920:</strong> Đọc "Sơ thảo lần thứ nhất những luận cương về vấn đề dân tộc và vấn đề thuộc địa" của Lênin, tìm thấy con đường cứu nước đúng đắn.</li>
+                        <li><strong>12/1920:</strong> Tham gia Đại hội Tour, bỏ phiếu tán thành Quốc tế III, trở thành một trong những người sáng lập Đảng Cộng sản Pháp.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container left">
+                <div class="content">
+                    <h2>1921 - 1941 (Hoạt động quốc tế & Về nước)</h2>
+                    <img src="the-dang-vien.jpg" 
+                    <ul>
+                        <li><strong>1921-1923:</strong> Hoạt động tại Pháp, sáng lập Hội Liên hiệp thuộc địa, viết báo Người cùng khổ (Le Paria).</li>
+                        <li><strong>1923-1924:</strong> Sang Liên Xô hoạt động trong Quốc tế Cộng sản.</li>
+                        <li><strong>1924-1927:</strong> Hoạt động tại Quảng Châu (Trung Quốc), thành lập Việt Nam Thanh niên Cách mạng Đồng chí Hội (1925).</li>
+                        <li><strong>1928-1930:</strong> Hoạt động tại Xiêm (Thái Lan) để gây dựng phong trào.</li>
+                        <li><strong>2/1930:</strong> Chủ trì hội nghị hợp nhất các tổ chức cộng sản tại Hương Cảng, thành lập Đảng Cộng sản Việt Nam.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="container right">
+                <div class="content">
+                    <h2>Ngày 28/1/1941</h2>
+                    <img src="nguoi-ve-pac-bo.jpg"
+                    <p>Sau 30 năm bôn ba, Người về nước tại Pác Bó (Cao Bằng) trực tiếp lãnh đạo cách mạng.</p>
+                </div>
+            </div>
+        </section>
+	<footer style="text-align: center; padding: 30px; margin-top: 50px; background: rgba(0,0,0,0.5); border-top: 1px solid rgba(255,255,255,0.2);">
+    <p style="font-size: 0.9rem; color: #ccc;">
+        <strong>Nguồn tài liệu tham khảo:</strong><br>
+        • Nội dung lịch sử: Bảo tàng Hồ Chí Minh & Tư liệu Đảng Cộng sản Việt Nam.<br>
+        • Video: https://www.youtube.com/watch?v=MOaU9h8KE0w<br>
+        • Hình ảnh: Sưu tầm từ tư liệu lịch sử & AI hỗ trợ thiết kế.<br>
+        • Nhạc nền: Còn gì đẹp hơn của nhạc sĩ Nguyễn Hùng.<br>
+	• Nhóm thực hiện: Trần An Thuận, Lưu Nguyễn Bảo Vinh, Phạm Anh Quân, Trương Gia Kiệt, Đoàn Nam Khánh
+    </p>
+</footer>
+    </div>
+</body>
+</html>
